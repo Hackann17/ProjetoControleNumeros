@@ -1,2 +1,2 @@
 # ProjetoControleNumeros
-Projeto para aprendizado de bibliotecas ligados a gerenciamento de dados com o python voltado para uma utilização cotidiana proficional
+Projeto para aprendizado de bibliotecas ligadas ao gerenciamento de dados com  python, voltado para uma utilização cotidiana profissional
