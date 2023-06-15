@@ -1,6 +1,7 @@
 import tkinter as tk
 import ClassesModelo.Operador as Operador
 import ClassesModelo.Numero as numero
+from tkinter import messagebox
 
 
 def main():
@@ -29,7 +30,7 @@ def main():
 
 # gera a tela para adicionar o operador em questão
 def gerar_telaad():
-    list_objnumeros = []
+    list_Entrynumeros = []
     boot2 = tk.Tk()
     boot2.title('Nome Operador')
     tk.Label(boot2, text=f'Nome').grid(column=0, row=0)
@@ -43,7 +44,7 @@ def gerar_telaad():
     for i in range(5):
         op.grid(column=0, row=1)
         # numeros
-        num = tk.Entry(boot2)
+        num = tk.Entry(boot2, )
         num.grid(column=1, row=1 + i)
         # recargas
         recs_u = tk.Entry(boot2)
@@ -57,25 +58,33 @@ def gerar_telaad():
         stts.grid(column=4, row=1 + i)
 
         # adiciona todas as entradas a uma lista
-        list_objnumeros.append(numero.Numero(op.get(), num.get(), recs_u.get(), recs_p.get(), stts.get()))
+        list_Entrynumeros.append(numero.Numero(op, num, recs_u, recs_p, stts))
 
     # atualiza a lista de objetos e a gera um novo objeto de operador para ser parametro do outro metodo
     def recolhe_dados():
+        list_numeros = []
+        s = ''
+        # gera uma nova lista de numero com cada atributo sendo uma string de fato, mantendo a lista inicial
+        for n in list_Entrynumeros:
+            objtNum = numero.Numero(n.operador.get(), n.numero.get(), n.ultima_recarga.get(), n.proxima_recarga.get(),
+                                    n.status.get())
 
-        for n in list_objnumeros:
-            n.operador = n.operador
-            n.numero = n.numero
-            n.ultima_recarga = n.ultima_recarga
-            n.proxima_recarga = n.proxima_recarga
-            n.status = n.status
+            if objtNum.operador == '':
+                messagebox.showwarning('Atenção!', 'Iforme pelo menos o nome do operador ')
+                break
 
-        # vai receber um objeto do operadro com uma lista dos numeros realcionados
+            objtNum.numero = 'vazio' if objtNum.ultima_recarga == '' else objtNum.numero
 
-        # mesmo com o objeto sendo atualizado com strings ainda tive que fazer essa conversao
-        print(list_objnumeros[0].operador, 'tipo', type(list_objnumeros[0].operador))
+            objtNum.ultima_recarga = 'vazio' if objtNum.ultima_recarga == '' else objtNum.proxima_recarga
 
-        operad = Operador.Funcionario(list_objnumeros[0].operador, list_objnumeros)
+            objtNum.proxima_recarga = 'vazio' if objtNum.proxima_recarga == '' else objtNum.proxima_recarga
 
+            objtNum.status = 'vazio' if objtNum.status == '' else objtNum.status
+
+            list_numeros.append(objtNum)
+
+        # vai receber um objeto do operador com uma lista dos numeros relacionados
+        operad = Operador.Funcionario(list_numeros[0].operador, list_numeros)
         ad_op(operad)
 
     tk.Button(boot2, text='Adicionar Número', command=num_amais).grid(column=4, row=10)
