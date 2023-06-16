@@ -10,7 +10,6 @@ class Funcionario:
 
 # recebe o objeto do operador em questao e o adiciona na planilha
 def adicionar_operador(operador_):
-    list_param = []
     book1 = openpyxl.load_workbook('PlanilhaNumeros.xlsx')
     sheet_page = book1['Sheet']
 
@@ -19,7 +18,7 @@ def adicionar_operador(operador_):
     for i, n in enumerate(operador_.numeros):
         if i == 0:
             list_param.append(operador_.nome.lower())
-    # trata cada atributo da classe numero como um item da lista list_param.append(str(n.numero))
+        # trata cada atributo da classe numero como um item da lista list_param.append(str(n.numero))
         list_param.append(str(n.numero))
         list_param.append(str(n.ultima_recarga))
         list_param.append(str(n.proxima_recarga))
@@ -29,3 +28,16 @@ def adicionar_operador(operador_):
 
     book1.save('PlanilhaNumeros.xlsx')
     print('salvou')
+
+
+def encontrar_operador():
+    book1 = openpyxl.load_workbook('PlanilhaNumeros.xlsx')
+    sheet_page = book1['Sheet']
+    for rows in sheet_page:
+        for cell in rows:
+            print(cell.value)
+
+    print('opa', list(sheet_page))
+
+
+encontrar_operador()

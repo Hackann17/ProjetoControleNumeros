@@ -25,7 +25,22 @@ def main():
     # Button
     tk.Button(root, text='Encontrar', command=chama_funcaoalt).grid(column=0, row=2)
     tk.Button(root, text='Adicionar', command=chama_funcaoad).grid(column=0, row=3)
+
+    # listando nomes do soperadores registrados na planilha
+
     root.mainloop()
+
+
+# linpa os slots de entrada
+def limpa_prompts(list_Entrynumeros):
+    ent = 0
+    while ent < len(list_Entrynumeros):
+        list_Entrynumeros[ent].operador.delete(0, len(list_Entrynumeros[ent].operador.get()))
+        list_Entrynumeros[ent].numero.delete(0, len(list_Entrynumeros[ent].numero.get()))
+        list_Entrynumeros[ent].ultima_recarga.delete(0, len(list_Entrynumeros[ent].ultima_recarga.get()))
+        list_Entrynumeros[ent].proxima_recarga.delete(0, len(list_Entrynumeros[ent].proxima_recarga.get()))
+        list_Entrynumeros[ent].status.delete(0, len(list_Entrynumeros[ent].status.get()))
+        ent += 1
 
 
 # gera a tela para adicionar o operador em questão
@@ -41,7 +56,7 @@ def gerar_telaad():
 
     op = tk.Entry(boot2)
     # dimenciona os componentes na tela
-    for i in range(5):
+    for i in range(4):
         op.grid(column=0, row=1)
         # numeros
         num = tk.Entry(boot2, )
@@ -73,9 +88,10 @@ def gerar_telaad():
                 messagebox.showwarning('Atenção!', 'Iforme pelo menos o nome do operador ')
                 break
 
+            # substitui espaços sem numero pela string 'vazio'
             objtNum.numero = 'vazio' if objtNum.ultima_recarga == '' else objtNum.numero
 
-            objtNum.ultima_recarga = 'vazio' if objtNum.ultima_recarga == '' else objtNum.proxima_recarga
+            objtNum.ultima_recarga = 'vazio' if objtNum.ultima_recarga == '' else objtNum.ultima_recarga
 
             objtNum.proxima_recarga = 'vazio' if objtNum.proxima_recarga == '' else objtNum.proxima_recarga
 
@@ -87,6 +103,8 @@ def gerar_telaad():
         operad = Operador.Funcionario(list_numeros[0].operador, list_numeros)
         ad_op(operad)
 
+        limpa_prompts(list_Entrynumeros)
+
     tk.Button(boot2, text='Adicionar Número', command=num_amais).grid(column=4, row=10)
     tk.Button(boot2, text='Adicionar operador', command=recolhe_dados).grid(column=3, row=10)
 
@@ -97,7 +115,8 @@ def ad_op(operador):
     Operador.adicionar_operador(operador)
 
 
-# receberar todas as informações do objeto operador e as mostrara ao usuarios
+# recebera todas as informações do objeto operador e as mostrara ao usuarios,
+# realizando uma alteraçao sempre seja com os mesmos dados quer com outros
 def gerar_telaalt():
     boot2 = tk.Tk()
     boot2.title('Nome Operador')
@@ -106,13 +125,8 @@ def gerar_telaalt():
     tk.Label(boot2, text=f'Proxima recarga').grid(column=3, row=0)
     tk.Label(boot2, text=f'Status').grid(column=4, row=0)
 
-    # usar o indice dessa lista de forma espelhada com a lista de numeros
-    # para saber c qual deles sera deletado
-    list_chebutton = []
-
     # recebe uma lengh do tamanho da lista de numeros atribuida ao operador
     for i in range(4):
-        list_chebutton.append(tk.Checkbutton(boot2).grid(column=0, row=1 + i))
         # numeros
         tk.Entry(boot2).grid(column=1, row=1 + i)
         # recargas
