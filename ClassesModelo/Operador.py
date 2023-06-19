@@ -1,4 +1,5 @@
 import openpyxl
+import Numero
 
 
 class Funcionario:
@@ -30,14 +31,36 @@ def adicionar_operador(operador_):
     print('salvou')
 
 
-def encontrar_operador():
+# retorna uma lista com todos os opoeradores para tela inicial a da interface
+def seleciona_operadores():
+    list_operadores = []
+    list_objtsNumeros = []
     book1 = openpyxl.load_workbook('PlanilhaNumeros.xlsx')
     sheet_page = book1['Sheet']
-    for rows in sheet_page:
-        for cell in rows:
-            print(cell.value)
 
-    print('opa', list(sheet_page))
+    # divide cada linha em listas menores
+    for row in sheet_page:
+        for i in range(1, len(row), 4):
+            sub_row = list(row[i:i + 4])
+            sub_row.insert(0, row[0].value)
+            list_objtsNumeros.append(sub_row)
+
+    for n, sub_row in enumerate(list_objtsNumeros):
+        lista = []
+        for p in sub_row:
+            if type(p) != str():
+                lista.append(p)
+
+            lista.append(p)
+
+        print(lista)
+        numerin = Numero.Numero(*lista)
+        print(numerin)
+        list_operadores.append(numerin)
+
+    # func = Funcionario(str(row[0].value),)
+    # list_operadores.append(Funcionario(str(row[0].value), list_numeros))
+    return list_operadores
 
 
-encontrar_operador()
+seleciona_operadores()

@@ -11,19 +11,24 @@ def main():
     # Labels
     tk.Label(root, text='Insira um nome para acessar seu números pertencentes:').grid(column=0, row=0)
 
-    # Entradas
-    ent_nome = tk.Entry(root)
-    ent_nome.grid(column=0, row=1)
-
-    def chama_funcaoalt():
-        gerar_telaalt()
-        print('Opa ta chamando__', ent_nome.get(), type(ent_nome.get()))
+    def chama_funcaoalt(nome_operador):
+        print(nome_operador)
+        gerar_telaalt(nome_operador)
 
     def chama_funcaoad():
         gerar_telaad()
 
-    # Button
-    tk.Button(root, text='Encontrar', command=chama_funcaoalt).grid(column=0, row=2)
+    n_coluna = 1
+    n_linha = 0
+    list_Nop = Operador.seleciona_operadores()
+    for n, op in enumerate(list_Nop):
+        n_linha += 1
+        if n % 5 == 0:
+            n_linha = 0
+            n_coluna += 1
+
+        tk.Button(root, text=op, command=lambda t=op: chama_funcaoalt(t)).grid(column=n_coluna, row=n_linha,padx=22)
+
     tk.Button(root, text='Adicionar', command=chama_funcaoad).grid(column=0, row=3)
 
     # listando nomes do soperadores registrados na planilha
@@ -117,9 +122,9 @@ def ad_op(operador):
 
 # recebera todas as informações do objeto operador e as mostrara ao usuarios,
 # realizando uma alteraçao sempre seja com os mesmos dados quer com outros
-def gerar_telaalt():
+def gerar_telaalt(oper_nome):
     boot2 = tk.Tk()
-    boot2.title('Nome Operador')
+    boot2.title(oper_nome)
     tk.Label(boot2, text=f'Numeros').grid(column=1, row=0)
     tk.Label(boot2, text=f'Última recarga').grid(column=2, row=0)
     tk.Label(boot2, text=f'Proxima recarga').grid(column=3, row=0)
