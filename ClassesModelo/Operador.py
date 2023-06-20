@@ -34,7 +34,6 @@ def adicionar_operador(operador_):
 # retorna uma lista com todos os opoeradores para tela inicial a da interface
 def seleciona_operadores():
     list_operadores = []
-
     book1 = openpyxl.load_workbook('PlanilhaNumeros.xlsx')
     sheet_page = book1['Sheet']
 
@@ -52,10 +51,7 @@ def seleciona_operadores():
 
         list_operadores.append(Funcionario(list_objtsNumeros[0].operador, list_objtsNumeros))
 
-    for opera in list_operadores:
-        print('objtop', opera.nome, opera.numeros)
-
     return list_operadores
 
 
-seleciona_operadores()
+

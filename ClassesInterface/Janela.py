@@ -4,6 +4,32 @@ import ClassesModelo.Numero as numero
 from tkinter import messagebox
 
 
+def gerador_botoes(root):
+    def chama_funcaoalt(nome_operador):
+        print(nome_operador)
+        gerar_telaalt(nome_operador)
+
+    def chama_funcaoad():
+        gerar_telaad(root)
+
+    list_Nop = Operador.seleciona_operadores()
+    n_coluna = 1
+    n_linha = 0
+
+    for n, op in enumerate(list_Nop):
+        n_linha += 1
+        if n % 5 == 0:
+            n_linha = 0
+            n_coluna += 1
+
+        tk.Button(root, text=op.nome, command=lambda t=op: chama_funcaoalt(t)).grid(column=n_coluna, row=n_linha,
+                                                                                    padx=22)
+
+    tk.Button(root, text='Adicionar', command=chama_funcaoad).grid(column=0, row=3)
+
+    # listando nomes do soperadores registrados na planilha
+
+
 def main():
     root = tk.Tk()
     root.title('Controle Números:')
@@ -11,27 +37,7 @@ def main():
     # Labels
     tk.Label(root, text='Insira um nome para acessar seu números pertencentes:').grid(column=0, row=0)
 
-    def chama_funcaoalt(nome_operador):
-        print(nome_operador)
-        gerar_telaalt(nome_operador)
-
-    def chama_funcaoad():
-        gerar_telaad()
-
-    n_coluna = 1
-    n_linha = 0
-    list_Nop = Operador.seleciona_operadores()
-    for n, op in enumerate(list_Nop):
-        n_linha += 1
-        if n % 5 == 0:
-            n_linha = 0
-            n_coluna += 1
-
-        tk.Button(root, text=op.nome, command=lambda t=op: chama_funcaoalt(t)).grid(column=n_coluna, row=n_linha,padx=22)
-
-    tk.Button(root, text='Adicionar', command=chama_funcaoad).grid(column=0, row=3)
-
-    # listando nomes do soperadores registrados na planilha
+    gerador_botoes(root)
 
     root.mainloop()
 
@@ -49,7 +55,7 @@ def limpa_prompts(list_Entrynumeros):
 
 
 # gera a tela para adicionar o operador em questão
-def gerar_telaad():
+def gerar_telaad(boot1):
     list_Entrynumeros = []
     boot2 = tk.Tk()
     boot2.title('Nome Operador')
@@ -106,18 +112,13 @@ def gerar_telaad():
 
         # vai receber um objeto do operador com uma lista dos numeros relacionados
         operad = Operador.Funcionario(list_numeros[0].operador, list_numeros)
-        ad_op(operad)
-
+        Operador.adicionar_operador(operad)
         limpa_prompts(list_Entrynumeros)
+        boot2.destroy()
+        gerador_botoes(boot1)
 
     tk.Button(boot2, text='Adicionar Número', command=num_amais).grid(column=4, row=10)
     tk.Button(boot2, text='Adicionar operador', command=recolhe_dados).grid(column=3, row=10)
-
-
-def ad_op(operador):
-    print("Adiciona o user ai nene")
-    # metodo para adicionar os dados
-    Operador.adicionar_operador(operador)
 
 
 # recebera todas as informações do objeto operador e as mostrara ao usuario,
@@ -132,16 +133,26 @@ def gerar_telaalt(oper_):
 
     # recebe uma lengh do tamanho da lista de numeros atribuida ao operador
     for i, n in enumerate(oper_.numeros):
+        """todos as entradas sao geradas,
+        dimencionadas e tem um texto atribuido para cada uma"""
+
         # numeros
         numer = tk.Entry(boot2)
         numer.grid(column=1, row=1 + i)
         numer.insert(0, n.numero)
         # recargas
-        tk.Entry(boot2).grid(column=2, row=1 + i)
-        tk.Entry(boot2).grid(column=3, row=1 + i)
+        recar_u = tk.Entry(boot2)
+        recar_u.grid(column=2, row=1 + i)
+        recar_u.insert(0, n.ultima_recarga)
+
+        recarga_p = tk.Entry(boot2)
+        recarga_p.grid(column=3, row=1 + i)
+        recarga_p.insert(0, n.proxima_recarga)
 
         # status
-        tk.Entry(boot2).grid(column=4, row=1 + i)
+        sts = tk.Entry(boot2)
+        sts.grid(column=4, row=1 + i)
+        sts.insert(0, n.status)
 
     # Button
     tk.Button(boot2, text='Alterar').grid(column=3, row=6)
