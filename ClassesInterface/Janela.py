@@ -27,7 +27,7 @@ def main():
             n_linha = 0
             n_coluna += 1
 
-        tk.Button(root, text=op, command=lambda t=op: chama_funcaoalt(t)).grid(column=n_coluna, row=n_linha,padx=22)
+        tk.Button(root, text=op.nome, command=lambda t=op: chama_funcaoalt(t)).grid(column=n_coluna, row=n_linha,padx=22)
 
     tk.Button(root, text='Adicionar', command=chama_funcaoad).grid(column=0, row=3)
 
@@ -120,20 +120,22 @@ def ad_op(operador):
     Operador.adicionar_operador(operador)
 
 
-# recebera todas as informações do objeto operador e as mostrara ao usuarios,
-# realizando uma alteraçao sempre seja com os mesmos dados quer com outros
-def gerar_telaalt(oper_nome):
+# recebera todas as informações do objeto operador e as mostrara ao usuario,
+# realizando uma alteraçao sempre, seja com os mesmos dados quer com outros
+def gerar_telaalt(oper_):
     boot2 = tk.Tk()
-    boot2.title(oper_nome)
+    boot2.title(oper_.nome)
     tk.Label(boot2, text=f'Numeros').grid(column=1, row=0)
     tk.Label(boot2, text=f'Última recarga').grid(column=2, row=0)
     tk.Label(boot2, text=f'Proxima recarga').grid(column=3, row=0)
     tk.Label(boot2, text=f'Status').grid(column=4, row=0)
 
     # recebe uma lengh do tamanho da lista de numeros atribuida ao operador
-    for i in range(4):
+    for i, n in enumerate(oper_.numeros):
         # numeros
-        tk.Entry(boot2).grid(column=1, row=1 + i)
+        numer = tk.Entry(boot2)
+        numer.grid(column=1, row=1 + i)
+        numer.insert(0, n.numero)
         # recargas
         tk.Entry(boot2).grid(column=2, row=1 + i)
         tk.Entry(boot2).grid(column=3, row=1 + i)
